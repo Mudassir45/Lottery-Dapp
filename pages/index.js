@@ -38,6 +38,15 @@ async componentDidMount() {
         this.setState({message: "You have been added to the Lottery"});
     }
 
+    onClick = async ()=> {
+        this.setState({message: "Please wait..."})
+        const accounts = await web3.eth.getAccounts();
+        const winner = await Lottery.methods.pickWinner().send({
+            from: accounts[0]
+        });
+        this.setState({message:  "Payment sent to winner"});
+    }
+
     render() {
         return (
             <div>
@@ -53,7 +62,7 @@ async componentDidMount() {
                 <hr/><br/><hr/>
 
                 <p>The Manager of the Lottery Dapp is {this.state.manager}</p>
-                <button>Pick Winner</button>
+                <button onClick = {this.onClick}> Pick Winner </button>
             </div>
         )
     }
